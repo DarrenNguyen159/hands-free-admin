@@ -1,8 +1,6 @@
-
-
 <!doctype html>
 <html lang="en">
- 
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -13,8 +11,11 @@
     <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/libs/css/style.css">
     <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,600,700&amp;subset=vietnamese" rel="stylesheet">
+    <!-- Page Icon -->
+    <link rel="icon" href="images/favicon.png" type="image/png" sizes="16x16">
     <style>
-    html,
+        html,
     body {
         height: 100%;
     }
@@ -26,31 +27,38 @@
         align-items: center;
         padding-top: 40px;
         padding-bottom: 40px;
+        background: url("images/bg.png") no-repeat;
+        background-size: 100%;
     }
     </style>
+    <link rel="stylesheet" href="main.css">
 </head>
 
-<body>
+<body >
     <!-- ============================================================== -->
     <!-- login page  -->
     <!-- ============================================================== -->
     <div class="splash-container">
         <div class="card ">
-            <div class="card-header text-center"><h1>Hands-Free Admin</h1></div>
+            <div class="card-header text-center">
+                <h1>Hands-Free Admin</h1>
+            </div>
             <div class="card-body">
                 <form>
                     <div class="form-group">
-                        <input class="form-control form-control-lg" id="username" name="username" type="text" placeholder="Username" autocomplete="off">
+                        <input class="form-control form-control-lg" id="username" name="username" type="text"
+                            placeholder="Username" autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <input class="form-control form-control-lg" id="password" name="password" type="password" placeholder="Password">
+                        <input class="form-control form-control-lg" id="password" name="password" type="password"
+                            placeholder="Password">
                     </div>
-                    <button type="button" class="btn btn-primary btn-lg btn-block" onclick="AdminLogin()">Sign in</button>
+                    <button type="button" class="btn btn-primary btn-lg btn-block" onclick="AdminLogin()">Sign In</button>
                 </form>
             </div>
         </div>
     </div>
-  
+
     <!-- ============================================================== -->
     <!-- end login page  -->
     <!-- ============================================================== -->
@@ -59,12 +67,10 @@
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
 
     <!-- auth.js -->
-    <script src="auth.js">
-        
-    </script>
+    <script src="auth.js"></script>
 
     <!-- My Script -->
     <script src="login.js"></script>
 </body>
- 
+
 </html>

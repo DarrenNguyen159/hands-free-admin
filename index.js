@@ -1,12 +1,12 @@
 if (isLoginedSync() == false) {
-    window.location.href = "login.php";
+    window.location.href = "login.html";
 }
 else {
     let user = $.parseJSON(JSON.stringify(getUser()));
     $(".usernameDisplay").html(user.username);
 }
 
-$('a').click(function(e) {e.preventDefault()});
+$('a').click(function (e) { e.preventDefault() });
 
 $(document).ready(function () {
     $(".product-table").hide();
@@ -35,7 +35,7 @@ function getProductTable() {
     let productTable = $(".product-table tbody");
 
     productTable.html(''); // clear table
-    
+
     $.ajax({
         url: "http://localhost/hands-free/api/product/get.php",
         type: "GET",
@@ -43,7 +43,7 @@ function getProductTable() {
         headers: {
             'Authorization': getToken()
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             var err = eval("(" + xhr.responseText + ")");
             alert(err);
         },
@@ -54,7 +54,7 @@ function getProductTable() {
                 function (index, row) {
                     let rowData = $.parseJSON(JSON.stringify(row));
                     productTable.append(
-                            "<tr><td>"+ rowData.id + "</td><td>" + rowData.modelId + "</td><td>" + rowData.name + "</td><td>" + rowData.price + '<td><button type="button" class="btn btn-primary" onclick="detailProduct(' + rowData.id + ')">detail</button></td>' + "</tr>"
+                        "<tr><td>" + rowData.id + "</td><td>" + rowData.modelId + "</td><td>" + rowData.name + "</td><td>" + rowData.price + '<td><button type="button" class="btn btn-primary" onclick="detailProduct(' + rowData.id + ')">detail</button></td>' + "</tr>"
                     );
                 }
             );
@@ -74,7 +74,7 @@ function getBrandTable() {
     let brandTable = $(".brand-table tbody");
 
     brandTable.html(''); // clear table
-    
+
     $.ajax({
         url: "http://localhost/hands-free/api/brand/get.php",
         type: "GET",
@@ -82,7 +82,7 @@ function getBrandTable() {
         headers: {
             'Authorization': getToken()
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             var err = eval("(" + xhr.responseText + ")");
             alert(err);
         },
@@ -93,7 +93,7 @@ function getBrandTable() {
                 function (index, row) {
                     let rowData = $.parseJSON(JSON.stringify(row));
                     brandTable.append(
-                            "<tr><td>"+ rowData.id + "</td><td>" + rowData.name + "</td><td>" + rowData.totalModels + "</td></tr>"
+                        "<tr><td>" + rowData.id + "</td><td>" + rowData.name + "</td><td>" + rowData.totalModels + "</td></tr>"
                     );
                 }
             );
@@ -113,7 +113,7 @@ function getModelTable() {
     let modelTable = $(".model-table tbody");
 
     modelTable.html(''); // clear table
-    
+
     $.ajax({
         url: "http://localhost/hands-free/api/model/get.php",
         type: "GET",
@@ -121,7 +121,7 @@ function getModelTable() {
         headers: {
             'Authorization': getToken()
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             var err = eval("(" + xhr.responseText + ")");
             alert(err);
         },
@@ -132,7 +132,7 @@ function getModelTable() {
                 function (index, row) {
                     let rowData = $.parseJSON(JSON.stringify(row));
                     modelTable.append(
-                            "<tr><td>"+ rowData.id + "</td><td>" + rowData.brandId + "</td><td>" + rowData.name + "</td><td>" + rowData.totalProducts + "</td></tr>"
+                        "<tr><td>" + rowData.id + "</td><td>" + rowData.brandId + "</td><td>" + rowData.name + "</td><td>" + rowData.totalProducts + "</td></tr>"
                     );
                 }
             );
@@ -160,7 +160,7 @@ function searchProduct() {
         headers: {
             'Authorization': getToken()
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             var err = eval("(" + xhr.responseText + ")");
             alert(err);
         },
@@ -172,7 +172,7 @@ function searchProduct() {
                 function (index, row) {
                     let rowData = $.parseJSON(JSON.stringify(row));
                     productTable.append(
-                            "<tr><td>"+ rowData.id + "</td><td>" + rowData.modelId + "</td><td>" + rowData.name + "</td><td>" + rowData.price + '<td><button type="button" class="btn btn-primary" onclick="detailProduct(' + rowData.id + ')">detail</button></td>' + "</tr>"
+                        "<tr><td>" + rowData.id + "</td><td>" + rowData.modelId + "</td><td>" + rowData.name + "</td><td>" + rowData.price + '<td><button type="button" class="btn btn-primary" onclick="detailProduct(' + rowData.id + ')">detail</button></td>' + "</tr>"
                     );
                 }
             );
@@ -204,7 +204,7 @@ function searchOrder() {
         headers: {
             'Authorization': getToken()
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             var err = eval("(" + xhr.responseText + ")");
             alert(err);
         },
@@ -214,9 +214,9 @@ function searchOrder() {
                 data['data'],
                 function (index, row) {
                     let rowData = $.parseJSON(JSON.stringify(row));
-                    let ele = "<tr><td>"+ rowData.id + "</td><td>" + rowData.userId + "</td><td>" + rowData.orderTime + "</td><td>" + rowData.approveTime + "</td><td>" + rowData.completeTime; 
+                    let ele = "<tr><td>" + rowData.id + "</td><td>" + rowData.userId + "</td><td>" + rowData.orderTime + "</td><td>" + rowData.approveTime + "</td><td>" + rowData.completeTime;
                     ele += '</td><td><select class="form-control status-dropdown" id="status' + rowData.id + '"><option value="Order">Order</option><option value="Approved">Approved</option><option Completed>Completed</option></select></td><td>';
-                    ele += rowData.paymentAddress + "</td><td>" + rowData.paymentMethod + "</td><td>" + rowData.totalPrice + '<td><button type="button" class="btn btn-primary" onclick="saveOrder(' + rowData.id + ')">Save</button></td>' + "</tr>";                    
+                    ele += rowData.paymentAddress + "</td><td>" + rowData.paymentMethod + "</td><td>" + rowData.totalPrice + '<td><button type="button" class="btn btn-primary" onclick="saveOrder(' + rowData.id + ')">Save</button></td>' + "</tr>";
                     orderTable.append(ele);
                     //render status
                     $('#status' + rowData.id).val(rowData.status);
@@ -250,7 +250,7 @@ function searchUser() {
         headers: {
             'Authorization': getToken()
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             var err = eval("(" + xhr.responseText + ")");
             alert(err);
         },
@@ -260,7 +260,7 @@ function searchUser() {
                 data['data'],
                 function (index, row) {
                     let rowData = $.parseJSON(JSON.stringify(row));
-                    let ele = "<tr><td>"+ rowData.id + "</td><td>" + rowData.email + "</td><td>" + rowData.firstName + "</td><td>" + rowData.lastName + "</td><td>" + rowData.tel + "</td><td>" + rowData.address + "</td><td>" + rowData.createdAt + "</td></tr>";
+                    let ele = "<tr><td>" + rowData.id + "</td><td>" + rowData.email + "</td><td>" + rowData.firstName + "</td><td>" + rowData.lastName + "</td><td>" + rowData.tel + "</td><td>" + rowData.address + "</td><td>" + rowData.createdAt + "</td></tr>";
                     userTable.append(ele);
                 }
             );
@@ -285,7 +285,7 @@ function detailProduct(productID) {
         headers: {
             'Authorization': getToken()
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             var err = eval("(" + xhr.responseText + ")");
             alert(err);
         },
@@ -338,7 +338,7 @@ function updateProductDetail() {
     query += "status=" + productStatus + "&";
     query += "warranty=" + productWaranty;
 
-    
+
     console.log(query);
     $.ajax({
         url: "http://localhost/hands-free/api/admin/product/update.php",
@@ -348,7 +348,7 @@ function updateProductDetail() {
         headers: {
             'Authorization': getToken()
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             var err = eval("(" + xhr.responseText + ")");
             alert(err);
         },
@@ -373,7 +373,7 @@ function saveOrder(orderID) {
             headers: {
                 'Authorization': getToken()
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 var err = eval("(" + xhr.responseText + ")");
                 alert(err);
             },
@@ -383,7 +383,7 @@ function saveOrder(orderID) {
             }
         });
     }
-    else if (st == "Completed"){
+    else if (st == "Completed") {
         let query = "orderId=" + orderID;
 
         $.ajax({
@@ -394,7 +394,7 @@ function saveOrder(orderID) {
             headers: {
                 'Authorization': getToken()
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 var err = eval("(" + xhr.responseText + ")");
                 alert(err);
             },
@@ -513,7 +513,7 @@ function creatNewProduct() {
         headers: {
             'Authorization': getToken()
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             var err = eval("(" + xhr.responseText + ")");
             alert(err);
         },
@@ -527,7 +527,7 @@ function creatNewProduct() {
 function CreateModel() {
     const brandId = $("#createModelId").val();
     const createModelName = $("#createModelName").val();
-    let query = "brandId=" + brandId +"&";
+    let query = "brandId=" + brandId + "&";
     query += "name=" + createModelName;
 
     console.log(query);
@@ -539,7 +539,7 @@ function CreateModel() {
         headers: {
             'Authorization': getToken()
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             var err = eval("(" + xhr.responseText + ")");
             alert(err);
         },
@@ -563,7 +563,7 @@ function CreateBrand() {
         headers: {
             'Authorization': getToken()
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             var err = eval("(" + xhr.responseText + ")");
             alert(err);
         },

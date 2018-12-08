@@ -6,6 +6,10 @@ else {
     $(".usernameDisplay").html(user.username);
 }
 
+function convertPriceToText(price) {
+    return `${window.numeral(price).format('0,0')} đ`;
+}
+
 $('a').click(function (e) { e.preventDefault() });
 
 $(document).ready(function () {
@@ -19,6 +23,8 @@ $(document).ready(function () {
     $(".model-table").hide();
     $("#addBtn").hide();
     $("#editBtn").show();
+
+    $('#menu-order').click();
 });
 
 
@@ -54,7 +60,7 @@ function getProductTable() {
                 function (index, row) {
                     let rowData = $.parseJSON(JSON.stringify(row));
                     productTable.append(
-                        "<tr><td>" + rowData.id + "</td><td>" + rowData.modelId + "</td><td>" + rowData.name + "</td><td>" + rowData.price + '<td><button type="button" class="btn btn-primary" onclick="detailProduct(' + rowData.id + ')">detail</button></td>' + "</tr>"
+                        "<tr><td>" + rowData.id + "</td><td>" + rowData.modelId + "</td><td>" + rowData.name + "</td><td>" + convertPriceToText(rowData.price) + '<td><button type="button" class="btn btn-primary" onclick="detailProduct(' + rowData.id + ')">Detail</button></td>' + "</tr>"
                     );
                 }
             );
@@ -140,13 +146,56 @@ function getModelTable() {
     });
 }
 
-function searchProduct() {
+const queryPage = {
+    user: 1,
+    product: 1
+}
+
+function paginateTable($tb, page, total, totalPage, number, pageTable) {
+    $tb.find('.number').text(number);
+    $tb.find('.total').text(total);
+    $tb.find('.pagination').html('');
+    $tb.find('.pagination').append(`
+        <li class="page-item">
+            <a class="page-link page-prev" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span>      </a>
+        </li>
+    `)
+    $tb.find('.pagination a.page-prev').click(() => {
+        if (page > 1) {
+            queryPage[pageTable] = page-1;
+            searchUser();
+        }
+    })
+    for (let i = 1; i <= totalPage; i++) {
+        $tb.find('.pagination').append(`
+            <li class="page-item ${i==page ? 'active' : ''}"><a class="page-link page-${i}" href="#">${i}</a></li>
+        `)
+        $tb.find(`.pagination a.page-${i}`).click(() => {queryPage[pageTable] = i; searchUser();})
+    }
+    $tb.find('.pagination').append(`
+        <li class="page-item">
+            <a class="page-link page-next" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span></a>
+        </li>
+    `)
+    $tb.find('.pagination a.page-next').click(() => {
+        if (page < totalPage) {
+            queryPage[pageTable] = page+1;
+            searchUser();
+        }
+    })
+}
+
+function searchProduct(isResetPage) {
+    if (isResetPage) queryPage.product = 1;
     $(".order-table").hide();
     $(".model-form").hide();
     $(".brand-form").hide();
     $(".user-table").hide();
     $(".brand-table").hide();
     $(".model-table").hide();
+    $(".product-table").show();
     let input = $(".product-table input");
 
     let productTable = $(".product-table tbody");
@@ -154,7 +203,7 @@ function searchProduct() {
     productTable.html(''); // clear table
 
     $.ajax({
-        url: "http://localhost/hands-free/api/product/search.php?" + "keywords=" + input.val(),
+        url: "http://localhost/hands-free/api/product/search.php?" + "keywords=" + input.val() + `&page=${queryPage.product}`,
         type: "GET",
         dataType: "json",
         headers: {
@@ -166,13 +215,19 @@ function searchProduct() {
         },
         success: function (data) {
             var productTable = $(".product-table tbody");
+            let { total, page, onePage, totalPage, offset } = data;
+            page = parseInt(page, 10);
+            onePage = parseInt(onePage, 10);
+            totalPage = parseInt(totalPage, 10);
+            console.log(data);
+            paginateTable($('.product-table'), page, total, totalPage, data['data'].length, 'product');
             // console.log(JSON.stringify(data));
             $.each(
                 data['data'],
                 function (index, row) {
                     let rowData = $.parseJSON(JSON.stringify(row));
                     productTable.append(
-                        "<tr><td>" + rowData.id + "</td><td>" + rowData.modelId + "</td><td>" + rowData.name + "</td><td>" + rowData.price + '<td><button type="button" class="btn btn-primary" onclick="detailProduct(' + rowData.id + ')">detail</button></td>' + "</tr>"
+                        "<tr><td>" + rowData.id + "</td><td>" + rowData.modelId + "</td><td>" + rowData.name + "</td><td class=\"text-right\">" + convertPriceToText(rowData.price) + '<td class="text-center"><button type="button" class="btn btn-primary btn-xs btn-rounded" onclick="detailProduct(' + rowData.id + ')">Detail</button></td>' + "</tr>"
                     );
                 }
             );
@@ -214,9 +269,10 @@ function searchOrder() {
                 data['data'],
                 function (index, row) {
                     let rowData = $.parseJSON(JSON.stringify(row));
-                    let ele = "<tr><td>" + rowData.id + "</td><td>" + rowData.userId + "</td><td>" + rowData.orderTime + "</td><td>" + rowData.approveTime + "</td><td>" + rowData.completeTime;
-                    ele += '</td><td><select class="form-control status-dropdown" id="status' + rowData.id + '"><option value="Order">Order</option><option value="Approved">Approved</option><option Completed>Completed</option></select></td><td>';
-                    ele += rowData.paymentAddress + "</td><td>" + rowData.paymentMethod + "</td><td>" + rowData.totalPrice + '<td><button type="button" class="btn btn-primary" onclick="saveOrder(' + rowData.id + ')">Save</button></td>' + "</tr>";
+                    let ele = "<tr><td class=\"text-center\">" + rowData.id + "</td><td class=\"text-center\">" + rowData.userId + "</td><td>" + rowData.orderTime;
+                    // "</td><td>" + rowData.approveTime + "</td><td>" + rowData.completeTime;
+                    ele += '</td><td><select class="form-control status-dropdown" id="status' + rowData.id + '"><option value="Order">Order</option><option value="Approved">Approved</option><option Completed>Completed</option></select></td><td class=\"text-center\">';
+                    ele += rowData.paymentAddress + "</td><td class=\"text-center\">" + rowData.paymentMethod + "</td><td class=\"text-right\">" + convertPriceToText(rowData.totalPrice) + '<td class="text-center"><button type="button" class="btn btn-primary btn-xs btn-rounded" onclick="saveOrder(' + rowData.id + ')"><i class="fas fa-check fa-xs"></i> OK</button></td>' + "</tr>";
                     orderTable.append(ele);
                     //render status
                     $('#status' + rowData.id).val(rowData.status);
@@ -226,7 +282,8 @@ function searchOrder() {
     });
 }
 
-function searchUser() {
+function searchUser(isResetPage) {
+    if (isResetPage) queryPage.user = 1;
     $(".product-table").hide();
     $(".product-detail").hide();
     $(".order-table").hide();
@@ -241,7 +298,7 @@ function searchUser() {
 
     userTable.html(''); // clear table
 
-    let query = "keywords=" + input.val();
+    let query = "keywords=" + input.val() + `&page=${queryPage.user}`;
 
     $.ajax({
         url: "http://localhost/hands-free/api/admin/user/search.php?" + query,
@@ -255,7 +312,13 @@ function searchUser() {
             alert(err);
         },
         success: function (data) {
-            console.log(JSON.stringify(data['data']));
+            let { total, page, onePage, totalPage, offset } = data;
+            page = parseInt(page, 10);
+            onePage = parseInt(onePage, 10);
+            totalPage = parseInt(totalPage, 10);
+            console.log(data);
+            paginateTable($('.user-table'), page, total, totalPage, data['data'].length, 'user');
+            // console.log(JSON.stringify(data['data']));
             $.each(
                 data['data'],
                 function (index, row) {
@@ -276,6 +339,7 @@ function detailProduct(productID) {
     $(".user-table").hide();
     $(".brand-table").hide();
     $(".model-table").hide();
+    $(".product-table").hide();
     $("#addBtn").hide();
     $("#editBtn").show();
     $.ajax({
@@ -412,6 +476,7 @@ function saveOrder(orderID) {
 //Open/CLose
 function closeProductDetail() {
     $(".product-detail").hide();
+    $('#menu-product').click();
 }
 
 function openProductForm() {
@@ -466,10 +531,12 @@ function openBrandForm() {
 
 function closeModelForm() {
     $(".model-form").hide();
+    $('#menu-model').click();
 }
 
 function closeBrandForm() {
     $(".brand-form").hide();
+    $('#menu-brand').click();
 }
 
 
@@ -520,6 +587,7 @@ function creatNewProduct() {
         success: function (data) {
             console.log(JSON.stringify(data));
             alert(data['message']);
+            $('#menu-product').click();
         }
     });
 }
@@ -546,6 +614,7 @@ function CreateModel() {
         success: function (data) {
             console.log(JSON.stringify(data));
             alert(data['message']);
+            $('#menu-model').click();
         }
     });
 }
@@ -570,6 +639,7 @@ function CreateBrand() {
         success: function (data) {
             console.log(JSON.stringify(data));
             alert(data['message']);
+            $('#menu-brand').click();
         }
     });
 }

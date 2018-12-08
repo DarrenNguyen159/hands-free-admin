@@ -172,7 +172,7 @@ Licensed under the BSD-2-Clause License.
       grid: true,
       gridLineColor: '#e6e6f2',
       gridStrokeWidth: .8,
-      gridTextColor: '#71748d',
+      gridTextColor: '#121213',
       gridTextSize: 13,
       gridTextFamily: 'Circular Std Book',
       gridTextWeight: 'normal',

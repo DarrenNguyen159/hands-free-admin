@@ -32,7 +32,7 @@
                                     position: 'bottom',
 
                                     labels: {
-                                        fontColor: '#71748d',
+                                        fontColor: '#121213',
                                         fontFamily: 'Circular Std Book',
                                         fontSize: 14,
                                     }
@@ -43,14 +43,14 @@
                                         ticks: {
                                             fontSize: 14,
                                             fontFamily: 'Circular Std Book',
-                                            fontColor: '#71748d',
+                                            fontColor: '#121213',
                                         }
                                     }],
                                     yAxes: [{
                                         ticks: {
                                             fontSize: 14,
                                             fontFamily: 'Circular Std Book',
-                                            fontColor: '#71748d',
+                                            fontColor: '#121213',
                                         }
                                     }]
                                 }
@@ -93,7 +93,7 @@
                         position: 'bottom',
 
                         labels: {
-                            fontColor: '#71748d',
+                            fontColor: '#121213',
                             fontFamily: 'Circular Std Book',
                             fontSize: 14,
                         }
@@ -104,14 +104,14 @@
                             ticks: {
                                 fontSize: 14,
                                 fontFamily: 'Circular Std Book',
-                                fontColor: '#71748d',
+                                fontColor: '#121213',
                             }
                         }],
                         yAxes: [{
                             ticks: {
                                 fontSize: 14,
                                 fontFamily: 'Circular Std Book',
-                                fontColor: '#71748d',
+                                fontColor: '#121213',
                             }
                         }]
                     }
@@ -148,7 +148,7 @@
                         position: 'bottom',
 
                         labels: {
-                            fontColor: '#71748d',
+                            fontColor: '#121213',
                             fontFamily: 'Circular Std Book',
                             fontSize: 14,
                         }
@@ -187,7 +187,7 @@
                         position: 'bottom',
 
                         labels: {
-                            fontColor: '#71748d',
+                            fontColor: '#121213',
                             fontFamily: 'Circular Std Book',
                             fontSize: 14,
                         }
@@ -224,7 +224,7 @@
                         position: 'bottom',
 
                         labels: {
-                            fontColor: '#71748d',
+                            fontColor: '#121213',
                             fontFamily: 'Circular Std Book',
                             fontSize: 14,
                         }
@@ -262,7 +262,7 @@
                         position: 'bottom',
 
                         labels: {
-                            fontColor: '#71748d',
+                            fontColor: '#121213',
                             fontFamily: 'Circular Std Book',
                             fontSize: 14,
                         }

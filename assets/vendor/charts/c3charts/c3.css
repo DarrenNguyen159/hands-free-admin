@@ -1,17 +1,17 @@
 /*-- Chart --*/
 .c3 svg {
   font-size: 14px; font-family: 'Circular Std Book';
-  -webkit-tap-highlight-color:#71748d; fill: #71748d; }
+  -webkit-tap-highlight-color:#121213; fill: #121213; }
 
 .c3 path, .c3 line {
   fill: none;
-  stroke: #71748d; }
+  stroke: #121213; }
 
 .c3 text {
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none; 
-  fill: #71748d; }
+  fill: #121213; }
 
  
 
@@ -46,7 +46,7 @@
 
 /*-- Text on Chart --*/
 .c3-text.c3-empty {
-  fill: #71748d;
+  fill: #121213;
   font-size:14px; }
 
 /*-- Line --*/
@@ -83,7 +83,7 @@
 
 /*-- Region --*/
 .c3-region {
-  fill: #71748d;
+  fill: #121213;
   fill-opacity: .1; }
 
 /*-- Brush --*/
@@ -130,7 +130,7 @@
   font-size: 14px;
   padding: 5px 8px;
   text-align: left;
-  color: #3d405c; }
+  color: #121213; }
 
 .c3-tooltip td {
   font-size: 14px;

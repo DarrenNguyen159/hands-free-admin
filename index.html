@@ -32,7 +32,7 @@
         <!-- ============================================================== -->
         <div class="dashboard-header">
             <nav class="navbar navbar-expand-lg bg-white fixed-top">
-                <a class="navbar-brand" href="index.html">Hands Free Admin</a>
+                <a class="navbar-brand" href="index.html">Admin Portal</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -41,12 +41,12 @@
                     <ul class="navbar-nav ml-auto navbar-right-top">
                         <li class="nav-item dropdown nav-user">
                             <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false"><img src="assets/images/avatar-1.jpg" alt=""
+                                aria-haspopup="true" aria-expanded="false"><img src="images/default-avatar.png" alt=""
                                     class="user-avatar-md rounded-circle"></a>
                             <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
                                 <div class="nav-user-info">
                                     <h5 class="mb-0 text-white nav-user-name usernameDisplay"></h5>
-                                    <span class="status"></span><span class="ml-2">Availabel</span>
+                                    <span class="status"></span><span class="ml-2">Available</span>
                                 </div>
                                 <a class="dropdown-item" href="#" onclick="logOut()"><i class="fas fa-power-off mr-2"></i>Logout</a>
                             </div>
@@ -75,10 +75,34 @@
                                 Menu
                             </li>
 
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" onclick="searchOrder(true)" id="menu-order">
+                                    <i class="fas fa-fw fa-shipping-fast"></i>Order (Đơn hàng)</a>
+                            </li>
 
                             <li class="nav-item">
+                                <a class="nav-link" href="#" onclick="searchProduct(true)" id="menu-product">
+                                    <i class="fas fa-fw fa-mobile"></i>Product (Điện thoại)</a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" onclick="getModelTable()" id="menu-model">
+                                    <i class="fas fa-fw fa-database"></i>Model (Mẫu mã)</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" onclick="getBrandTable()" id="menu-brand">
+                                    <i class="fas fa-fw fa-rocket"></i>Brand (Thương hiệu)</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" onclick="searchUser(true)" id="menu-user">
+                                    <i class="fas fa-fw fa-user"></i>User (Người dùng)</a>
+                            </li>
+
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5"
-                                    aria-controls="submenu-5"><i class="fas fa-fw fa-table"></i>Bảng </a>
+                                    aria-controls="submenu-5"><i class="fas fa-fw fa-table"></i>Cơ sở dữ liệu</a>
                                 <div id="submenu-5" class="collapse submenu" style="">
                                     <ul class="nav flex-column">
                                         <li class="nav-item">
@@ -98,21 +122,21 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </li>
+                            </li> -->
 
                             <li class="nav-item">
                                 <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-6"
-                                    aria-controls="submenu-6"><i class="fas fa-fw fa-table"></i>Thêm </a>
+                                    aria-controls="submenu-6"><i class="fas fa-fw fa-plus-square"></i>New (Tạo mới)</a>
                                 <div id="submenu-6" class="collapse submenu" style="">
                                     <ul class="nav flex-column">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#" onclick="openProductForm()">Sản phẩm</a>
+                                            <a class="nav-link" href="#" onclick="openProductForm()">Product (Sản phẩm)</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#" onclick="openModelForm()">Model</a>
+                                            <a class="nav-link" href="#" onclick="openModelForm()">Model (Mẫu mã)</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#" onclick="openBrandForm()">Brand</a>
+                                            <a class="nav-link" href="#" onclick="openBrandForm()">Brand (Thương hiệu)</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -143,7 +167,7 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h5>Product Detail</h5>
+                                <h2 class="text-primary mt-3 mb-4"><i class="fas fa-database m-r-10"></i>Product - Thông tin sản phẩm</h2>
                                 <form>
                                     <div class="row">
                                         <div class="form-group col-md-4">
@@ -223,7 +247,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-md-12">
-                                            <button type="button" class="btn btn-success" id="addBtn" onclick="creatNewProduct()">Thêm</button>
+                                            <button type="button" class="btn btn-success" id="addBtn" onclick="creatNewProduct()">Tạo mới</button>
                                             <button type="button" class="btn btn-success" id="editBtn" onclick="updateProductDetail()">Cập
                                                 nhật</button>
                                             <button type="button" class="btn btn-danger" onclick="closeProductDetail()">Thoát</button>
@@ -245,7 +269,7 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h5>Model</h5>
+                                <h2 class="text-primary mt-3 mb-4"><i class="fas fa-database m-r-10"></i>Model - Thông tin mẫu mã</h2>
                                 <form>
                                     <div class="row">
                                         <div class="form-group col-md-4">
@@ -260,7 +284,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-md-12">
-                                            <button type="button" class="btn btn-success" onclick="CreateModel()">Thêm</button>
+                                            <button type="button" class="btn btn-success" onclick="CreateModel()">Tạo mới</button>
                                             <button type="button" class="btn btn-danger" onclick="closeModelForm()">Thoát</button>
                                         </div>
                                     </div>
@@ -279,7 +303,7 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h5>Model</h5>
+                                <h2 class="text-primary mt-3 mb-4"><i class="fas fa-database m-r-10"></i>Brand - Thông tin thương hiệu</h2>
                                 <form>
                                     <div class="row">
                                         <div class="form-group col-md-4">
@@ -289,7 +313,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-md-12">
-                                            <button type="button" class="btn btn-success" onclick="CreateBrand()">Thêm</button>
+                                            <button type="button" class="btn btn-success" onclick="CreateBrand()">Tạo mới</button>
                                             <button type="button" class="btn btn-danger" onclick="closeBrandForm()">Thoát</button>
                                         </div>
                                     </div>
@@ -308,22 +332,40 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h5>Product Table</h5>
+                                <h2 class="text-primary mt-3 mb-4"><i class="fas fa-database m-r-10"></i>Product - Danh sách sản phẩm</h2>
                                 <div class="input-group mb-3">
-                                    <input class="form-control" type="text" placeholder="Search" />
+                                    <input class="form-control" type="text" placeholder="Nhập từ khóa tìm kiếm..." />
                                     <div class="input-group-append">
-                                        <button type="button" class="btn btn-primary" onclick="searchProduct()">Search</button>
+                                        <button type="button" class="btn btn-primary" onclick="searchProduct(true)">Search</button>
                                     </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="">Tổng cộng <span class="number">20</span> trong số <span class="total">255</span> kết quả</span>
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination">
+                                            <li class="page-item">
+                                                <a class="page-link" href="#" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span>      </a>
+                                            </li>
+                                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span>
+                                                    <span class="sr-only">Next</span></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered first">
                                         <thead>
                                             <tr>
-                                                <th>Id</th>
-                                                <th>Model ID</th>
-                                                <th>Name</th>
-                                                <th>Price</th>
-                                                <th>Detail</th>
+                                                <th class="text-center">ID</th>
+                                                <th class="text-center">Model ID</th>
+                                                <th class="text-center">Name</th>
+                                                <th class="text-right">Price</th>
+                                                <th class="text-center">Detail</th>
                                             </tr>
                                         </thead>
 
@@ -346,9 +388,9 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h5>Order Table</h5>
+                                <h2 class="text-primary mt-3 mb-4"><i class="fas fa-database m-r-10"></i>Order - Danh sách các đơn hàng</h2>
                                 <div class="input-group mb-3">
-                                    <input class="form-control" type="text" placeholder="Search" />
+                                    <input class="form-control" type="text" placeholder="Nhập từ khóa tìm kiếm..." />
                                     <div class="input-group-append">
                                         <button type="button" class="btn btn-primary" onclick="searchOrder()">Search</button>
                                     </div>
@@ -357,16 +399,16 @@
                                     <table class="table table-striped table-bordered first">
                                         <thead>
                                             <tr>
-                                                <th>Id</th>
-                                                <th>User ID</th>
-                                                <th>Order Time</th>
-                                                <th>Approve Time</th>
-                                                <th>Complete Time</th>
-                                                <th>Status</th>
-                                                <th>Payment Address</th>
-                                                <th>Payment Method</th>
-                                                <th>Total Price</th>
-                                                <th>Change Status</th>
+                                                <th class="text-center">ID</th>
+                                                <th class="text-center">User</th>
+                                                <th class="text-center">Order Time</th>
+                                                <!-- <th>Approve Time</th> -->
+                                                <!-- <th>Complete Time</th> -->
+                                                <th class="text-center">Status</th>
+                                                <th class="text-center">Payment Address</th>
+                                                <th class="text-center">Payment Method</th>
+                                                <th class="text-right">Total Price</th>
+                                                <th class="text-center">Save</th>
                                             </tr>
                                         </thead>
 
@@ -389,22 +431,40 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h5>User Table</h5>
+                                <h2 class="text-primary mt-3 mb-4"><i class="fas fa-database m-r-10"></i>User - Danh sách người dùng</h2>
                                 <div class="input-group mb-3">
-                                    <input class="form-control" type="text" placeholder="Search" />
+                                    <input class="form-control" type="text" placeholder="Nhập từ khóa tìm kiếm..." />
                                     <div class="input-group-append">
-                                        <button type="button" class="btn btn-primary" onclick="searchUser()">Search</button>
+                                        <button type="button" class="btn btn-primary" onclick="searchUser(true)">Search</button>
                                     </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="">Tổng cộng <span class="number">20</span> trong số <span class="total">255</span> kết quả</span>
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination">
+                                            <li class="page-item">
+                                                <a class="page-link" href="#" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span>      </a>
+                                            </li>
+                                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span>
+                                                    <span class="sr-only">Next</span></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered first">
                                         <thead>
                                             <tr>
-                                                <th>Id</th>
+                                                <th>ID</th>
                                                 <th>Email</th>
                                                 <th>First Name</th>
                                                 <th>Last Name</th>
-                                                <th>Phone #</th>
+                                                <th>Phone</th>
                                                 <th>Address</th>
                                                 <th>Created At</th>
                                             </tr>
@@ -429,12 +489,12 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h5>Brand Table</h5>
+                                <h2 class="text-primary mt-3 mb-4"><i class="fas fa-database m-r-10"></i> Brand - Dữ liệu thương hiệu</h2>
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered first">
                                         <thead>
                                             <tr>
-                                                <th>Id</th>
+                                                <th>ID</th>
                                                 <th>Name</th>
                                                 <th>Total Models</th>
                                             </tr>
@@ -459,13 +519,13 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h5>Model Table</h5>
+                                <h2 class="text-primary mt-3 mb-4"><i class="fas fa-database m-r-10"></i>Model - Danh sách mẫu mã</h2>
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered first">
                                         <thead>
                                             <tr>
-                                                <th>Id</th>
-                                                <th>Brand Id</th>
+                                                <th>ID</th>
+                                                <th>Brand ID</th>
                                                 <th>Name</th>
                                                 <th>Total Products</th>
                                             </tr>
@@ -493,7 +553,18 @@
             <!-- ============================================================== -->
             <div class="footer">
                 <div class="container-fluid">
-
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                            Copyright © 2018 Hands-Free. All rights reserved.
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="text-md-right footer-links d-none d-sm-block">
+                                <a href="javascript: void(0);">About</a>
+                                <a href="javascript: void(0);">Support</a>
+                                <a href="javascript: void(0);">Contact Us</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- ============================================================== -->
@@ -514,6 +585,9 @@
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
     <!-- slimscroll js -->
     <script src="assets/vendor/slimscroll/jquery.slimscroll.js"></script>
+
+    <!-- Numeral -->
+    <script src="assets/vendor/numeral/numeral.min.js"></script>
 
     <!-- auth.js -->
     <script src="auth.js"></script>

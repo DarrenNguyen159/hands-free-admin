@@ -48,7 +48,7 @@ $(function() {
                 position: 'bottom',
 
                 labels: {
-                    fontColor: '#71748d',
+                    fontColor: '#121213',
                     fontFamily: 'Circular Std Book',
                     fontSize: 14,
                 }
@@ -66,7 +66,7 @@ $(function() {
                     ticks: {
                         fontSize: 14,
                         fontFamily: 'Circular Std Book',
-                        fontColor: '#71748d',
+                        fontColor: '#121213',
                     }
                 }],
                 xAxes: [{
@@ -76,7 +76,7 @@ $(function() {
                     ticks: {
                         fontSize: 14,
                         fontFamily: 'Circular Std Book',
-                        fontColor: '#71748d',
+                        fontColor: '#121213',
                     }
                 }]
 

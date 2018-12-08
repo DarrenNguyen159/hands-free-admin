@@ -1,10 +1,26 @@
-.override-blue-outline, input[type=text]:hover, input[type=tel]:hover, input[type=email]:hover, input[type=password]:hover, input[type=text]:focus, input[type=tel]:focus, input[type=email]:focus, input[type=password]:focus, input[type=text]:active, input[type=tel]:active, input[type=email]:active, input[type=password]:active {
+.override-blue-outline, 
+input[type=text]:hover, 
+input[type=tel]:hover, 
+input[type=email]:hover, 
+input[type=password]:hover, 
+input[type=text]:focus, 
+input[type=tel]:focus, 
+input[type=email]:focus, 
+input[type=password]:focus, 
+input[type=text]:active, 
+input[type=tel]:active, 
+input[type=email]:active, 
+input[type=password]:active,
+select {
     -webkit-appearance: none;
     outline: none !important;
     box-shadow: none !important;
 }
 
-body {
+body, h2 {
     font-family: 'Muli', sans-serif;
-    font-weight: 500;
+}
+
+body {
+    font-weight: 600;
 }

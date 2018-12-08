@@ -93,7 +93,7 @@ body .fc {
   color: #333;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);*/
-  color: #3d405c;
+  color: #121213;
   background-color: transparent;
   border-color: #e0e4ef;
 }
@@ -102,7 +102,7 @@ body .fc {
 .fc-state-down,
 .fc-state-active,
 .fc-state-disabled {
-  color: #3d405c;
+  color: #121213;
   background-color: #f9f9ff;
   }
 
@@ -224,7 +224,7 @@ hr.fc-divider {
   border-width: 1px;
   padding: 0;
   vertical-align: top;
-  color: #71748d; }
+  color: #121213; }
 
 .fc td.fc-today {
   border-style: double;
@@ -598,7 +598,7 @@ TODO: more distinction between this file and common.css
 */
 /* Colors
 --------------------------------------------------------------------------------------------------*/
-.fc-unthemed th{padding: 10px; color: #3d405c; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;}
+.fc-unthemed th{padding: 10px; color: #121213; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;}
 .fc-unthemed th,
 .fc-unthemed td,
 .fc-unthemed thead,

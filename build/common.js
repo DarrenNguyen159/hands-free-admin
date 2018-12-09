@@ -1,9 +1,10 @@
 window.handsFreeConfig = {
     // baseUrl: 'http://localhost/hands-free',
     // baseUrl: 'http://localhost:8080/hands-free',
-    baseUrl: 'http://api.hands-free.epizy.com',
+    // baseUrl: 'http://api.hands-free.epizy.com',
     // baseUrl: 'http://hands-free.epizy.com',
     // baseUrl: 'http://192.168.64.2/hands-free'
+    baseUrl: 'http://hands-free.000webhostapp.com'
 }
 
 

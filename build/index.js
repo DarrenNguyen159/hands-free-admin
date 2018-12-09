@@ -45,10 +45,6 @@ function getBrandTable() {
         $.ajax({
             url: config.baseUrl + "/api/brand/get.php",
             type: "GET",
-            dataType: "json",
-            headers: {
-                'Authorization': getToken()
-            },
             success: function (data) {
                 hideLoading();
                 brandTable.html(''); // clear table
@@ -81,14 +77,9 @@ function getModelTable() {
     let modelTable = $(".model-table tbody");
 
     showLoading(() => {
-
         $.ajax({
             url: config.baseUrl + "/api/model/get.php",
             type: "GET",
-            dataType: "json",
-            headers: {
-                'Authorization': getToken()
-            },
             success: function (data) {
                 hideLoading()
                 modelTable.html(''); // clear table
@@ -167,10 +158,6 @@ function searchProduct(isResetPage) {
         $.ajax({
             url: config.baseUrl + "/api/product/search.php?" + "keywords=" + input.val() + `&page=${queryPage.product}`,
             type: "GET",
-            dataType: "json",
-            headers: {
-                'Authorization': getToken()
-            },
             success: function (data) {
                 hideLoading();
                 productTable.html(''); // clear table
@@ -210,15 +197,12 @@ function searchOrder() {
 
     let orderTable = $(".order-table tbody");
 
-
     let query = "keywords=" + input.val();
 
     showLoading(() => {
-
         $.ajax({
             url: config.baseUrl + "/api/admin/order/search.php?" + query,
             type: "GET",
-            dataType: "json",
             headers: {
                 'Authorization': getToken()
             },
@@ -266,7 +250,6 @@ function searchUser(isResetPage) {
         $.ajax({
             url: config.baseUrl + "/api/admin/user/search.php?" + query,
             type: "GET",
-            dataType: "json",
             headers: {
                 'Authorization': getToken()
             },

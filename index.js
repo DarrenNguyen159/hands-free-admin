@@ -6,6 +6,8 @@ else {
     $(".usernameDisplay").html(user.username);
 }
 
+const config = window.handsFreeConfig;
+
 function convertPriceToText(price) {
     return `${window.numeral(price).format('0,0')} đ`;
 }
@@ -28,46 +30,6 @@ $(document).ready(function () {
 });
 
 
-
-function getProductTable() {
-    $(".product-table").show();
-    $(".order-table").hide();
-    $(".product-detail").hide();
-    $(".model-form").hide();
-    $(".brand-form").hide();
-    $(".user-table").hide();
-    $(".brand-table").hide();
-    $(".model-table").hide();
-    let productTable = $(".product-table tbody");
-
-    productTable.html(''); // clear table
-
-    $.ajax({
-        url: "http://localhost/hands-free/api/product/get.php",
-        type: "GET",
-        dataType: "json",
-        headers: {
-            'Authorization': getToken()
-        },
-        error: function (xhr, status, error) {
-            var err = eval("(" + xhr.responseText + ")");
-            alert(err);
-        },
-        success: function (data) {
-            // console.log(JSON.stringify(data));
-            $.each(
-                data,
-                function (index, row) {
-                    let rowData = $.parseJSON(JSON.stringify(row));
-                    productTable.append(
-                        "<tr><td>" + rowData.id + "</td><td>" + rowData.modelId + "</td><td>" + rowData.name + "</td><td>" + convertPriceToText(rowData.price) + '<td><button type="button" class="btn btn-primary" onclick="detailProduct(' + rowData.id + ')">Detail</button></td>' + "</tr>"
-                    );
-                }
-            );
-        }
-    });
-}
-
 function getBrandTable() {
     $(".product-table").hide();
     $(".order-table").hide();
@@ -79,32 +41,32 @@ function getBrandTable() {
     $(".model-table").hide();
     let brandTable = $(".brand-table tbody");
 
-    brandTable.html(''); // clear table
+    showLoading(() => {
+        $.ajax({
+            url: config.baseUrl + "/api/brand/get.php",
+            type: "GET",
+            dataType: "json",
+            headers: {
+                'Authorization': getToken()
+            },
+            success: function (data) {
+                hideLoading();
+                brandTable.html(''); // clear table
 
-    $.ajax({
-        url: "http://localhost/hands-free/api/brand/get.php",
-        type: "GET",
-        dataType: "json",
-        headers: {
-            'Authorization': getToken()
-        },
-        error: function (xhr, status, error) {
-            var err = eval("(" + xhr.responseText + ")");
-            alert(err);
-        },
-        success: function (data) {
-            console.log(JSON.stringify(data));
-            $.each(
-                data,
-                function (index, row) {
-                    let rowData = $.parseJSON(JSON.stringify(row));
-                    brandTable.append(
-                        "<tr><td>" + rowData.id + "</td><td>" + rowData.name + "</td><td>" + rowData.totalModels + "</td></tr>"
-                    );
-                }
-            );
-        }
-    });
+                // console.log(JSON.stringify(data));
+                $.each(
+                    data,
+                    function (index, row) {
+                        let rowData = $.parseJSON(JSON.stringify(row));
+                        brandTable.append(
+                            "<tr><td>" + rowData.id + "</td><td>" + rowData.name + "</td><td>" + rowData.totalModels + "</td></tr>"
+                        );
+                    }
+                );
+            }
+        }).fail(err => handleError(err.responseJSON));
+    })
+
 }
 
 function getModelTable() {
@@ -118,32 +80,33 @@ function getModelTable() {
     $(".model-table").show();
     let modelTable = $(".model-table tbody");
 
-    modelTable.html(''); // clear table
+    showLoading(() => {
 
-    $.ajax({
-        url: "http://localhost/hands-free/api/model/get.php",
-        type: "GET",
-        dataType: "json",
-        headers: {
-            'Authorization': getToken()
-        },
-        error: function (xhr, status, error) {
-            var err = eval("(" + xhr.responseText + ")");
-            alert(err);
-        },
-        success: function (data) {
-            console.log(JSON.stringify(data));
-            $.each(
-                data,
-                function (index, row) {
-                    let rowData = $.parseJSON(JSON.stringify(row));
-                    modelTable.append(
-                        "<tr><td>" + rowData.id + "</td><td>" + rowData.brandId + "</td><td>" + rowData.name + "</td><td>" + rowData.totalProducts + "</td></tr>"
-                    );
-                }
-            );
-        }
-    });
+        $.ajax({
+            url: config.baseUrl + "/api/model/get.php",
+            type: "GET",
+            dataType: "json",
+            headers: {
+                'Authorization': getToken()
+            },
+            success: function (data) {
+                hideLoading()
+                modelTable.html(''); // clear table
+
+                // console.log(JSON.stringify(data));
+                $.each(
+                    data,
+                    function (index, row) {
+                        let rowData = $.parseJSON(JSON.stringify(row));
+                        modelTable.append(
+                            "<tr><td>" + rowData.id + "</td><td>" + rowData.brandId + "</td><td>" + rowData.name + "</td><td>" + rowData.totalProducts + "</td></tr>"
+                        );
+                    }
+                );
+            }
+        }).fail(err => handleError(err.responseJSON));;
+    })
+
 }
 
 const queryPage = {
@@ -163,15 +126,15 @@ function paginateTable($tb, page, total, totalPage, number, pageTable) {
     `)
     $tb.find('.pagination a.page-prev').click(() => {
         if (page > 1) {
-            queryPage[pageTable] = page-1;
+            queryPage[pageTable] = page - 1;
             searchUser();
         }
     })
     for (let i = 1; i <= totalPage; i++) {
         $tb.find('.pagination').append(`
-            <li class="page-item ${i==page ? 'active' : ''}"><a class="page-link page-${i}" href="#">${i}</a></li>
+            <li class="page-item ${i == page ? 'active' : ''}"><a class="page-link page-${i}" href="#">${i}</a></li>
         `)
-        $tb.find(`.pagination a.page-${i}`).click(() => {queryPage[pageTable] = i; searchUser();})
+        $tb.find(`.pagination a.page-${i}`).click(() => { queryPage[pageTable] = i; searchUser(); })
     }
     $tb.find('.pagination').append(`
         <li class="page-item">
@@ -181,7 +144,7 @@ function paginateTable($tb, page, total, totalPage, number, pageTable) {
     `)
     $tb.find('.pagination a.page-next').click(() => {
         if (page < totalPage) {
-            queryPage[pageTable] = page+1;
+            queryPage[pageTable] = page + 1;
             searchUser();
         }
     })
@@ -200,39 +163,38 @@ function searchProduct(isResetPage) {
 
     let productTable = $(".product-table tbody");
 
-    productTable.html(''); // clear table
+    showLoading(() => {
+        $.ajax({
+            url: config.baseUrl + "/api/product/search.php?" + "keywords=" + input.val() + `&page=${queryPage.product}`,
+            type: "GET",
+            dataType: "json",
+            headers: {
+                'Authorization': getToken()
+            },
+            success: function (data) {
+                hideLoading();
+                productTable.html(''); // clear table
 
-    $.ajax({
-        url: "http://localhost/hands-free/api/product/search.php?" + "keywords=" + input.val() + `&page=${queryPage.product}`,
-        type: "GET",
-        dataType: "json",
-        headers: {
-            'Authorization': getToken()
-        },
-        error: function (xhr, status, error) {
-            var err = eval("(" + xhr.responseText + ")");
-            alert(err);
-        },
-        success: function (data) {
-            var productTable = $(".product-table tbody");
-            let { total, page, onePage, totalPage, offset } = data;
-            page = parseInt(page, 10);
-            onePage = parseInt(onePage, 10);
-            totalPage = parseInt(totalPage, 10);
-            console.log(data);
-            paginateTable($('.product-table'), page, total, totalPage, data['data'].length, 'product');
-            // console.log(JSON.stringify(data));
-            $.each(
-                data['data'],
-                function (index, row) {
-                    let rowData = $.parseJSON(JSON.stringify(row));
-                    productTable.append(
-                        "<tr><td>" + rowData.id + "</td><td>" + rowData.modelId + "</td><td>" + rowData.name + "</td><td class=\"text-right\">" + convertPriceToText(rowData.price) + '<td class="text-center"><button type="button" class="btn btn-primary btn-xs btn-rounded" onclick="detailProduct(' + rowData.id + ')">Detail</button></td>' + "</tr>"
-                    );
-                }
-            );
-        }
-    });
+                let { total, page, onePage, totalPage, offset } = data;
+                page = parseInt(page, 10);
+                onePage = parseInt(onePage, 10);
+                totalPage = parseInt(totalPage, 10);
+                console.log(data);
+                paginateTable($('.product-table'), page, total, totalPage, data['data'].length, 'product');
+                // console.log(JSON.stringify(data));
+                $.each(
+                    data['data'],
+                    function (index, row) {
+                        let rowData = $.parseJSON(JSON.stringify(row));
+                        productTable.append(
+                            "<tr><td>" + rowData.id + "</td><td>" + rowData.modelId + "</td><td>" + rowData.name + "</td><td class=\"text-right\">" + convertPriceToText(rowData.price) + '<td class="text-center"><button type="button" class="btn btn-primary btn-xs btn-rounded" onclick="detailProduct(' + rowData.id + ')">Detail</button></td>' + "</tr>"
+                        );
+                    }
+                );
+            }
+        }).fail(err => handleError(err.responseJSON));;
+    })
+
 }
 
 function searchOrder() {
@@ -248,38 +210,40 @@ function searchOrder() {
 
     let orderTable = $(".order-table tbody");
 
-    orderTable.html(''); // clear table
 
     let query = "keywords=" + input.val();
 
-    $.ajax({
-        url: "http://localhost/hands-free/api/admin/order/search.php?" + query,
-        type: "GET",
-        dataType: "json",
-        headers: {
-            'Authorization': getToken()
-        },
-        error: function (xhr, status, error) {
-            var err = eval("(" + xhr.responseText + ")");
-            alert(err);
-        },
-        success: function (data) {
-            console.log(JSON.stringify(data['data']));
-            $.each(
-                data['data'],
-                function (index, row) {
-                    let rowData = $.parseJSON(JSON.stringify(row));
-                    let ele = "<tr><td class=\"text-center\">" + rowData.id + "</td><td class=\"text-center\">" + rowData.userId + "</td><td>" + rowData.orderTime;
-                    // "</td><td>" + rowData.approveTime + "</td><td>" + rowData.completeTime;
-                    ele += '</td><td><select class="form-control status-dropdown" id="status' + rowData.id + '"><option value="Order">Order</option><option value="Approved">Approved</option><option Completed>Completed</option></select></td><td class=\"text-center\">';
-                    ele += rowData.paymentAddress + "</td><td class=\"text-center\">" + rowData.paymentMethod + "</td><td class=\"text-right\">" + convertPriceToText(rowData.totalPrice) + '<td class="text-center"><button type="button" class="btn btn-primary btn-xs btn-rounded" onclick="saveOrder(' + rowData.id + ')"><i class="fas fa-check fa-xs"></i> OK</button></td>' + "</tr>";
-                    orderTable.append(ele);
-                    //render status
-                    $('#status' + rowData.id).val(rowData.status);
-                }
-            );
-        }
-    });
+    showLoading(() => {
+
+        $.ajax({
+            url: config.baseUrl + "/api/admin/order/search.php?" + query,
+            type: "GET",
+            dataType: "json",
+            headers: {
+                'Authorization': getToken()
+            },
+            success: function (data) {
+                hideLoading();
+                orderTable.html(''); // clear table
+
+                // console.log(JSON.stringify(data['data']));
+                $.each(
+                    data['data'],
+                    function (index, row) {
+                        let rowData = $.parseJSON(JSON.stringify(row));
+                        let ele = "<tr><td class=\"text-center\">" + rowData.id + "</td><td class=\"text-center\">" + rowData.userId + "</td><td>" + rowData.orderTime;
+                        // "</td><td>" + rowData.approveTime + "</td><td>" + rowData.completeTime;
+                        ele += '</td><td><select class="form-control status-dropdown" id="status' + rowData.id + '"><option value="Order">Order</option><option value="Approved">Approved</option><option Completed>Completed</option></select></td><td class=\"text-center\">';
+                        ele += rowData.paymentAddress + "</td><td class=\"text-center\">" + rowData.paymentMethod + "</td><td class=\"text-right\">" + convertPriceToText(rowData.totalPrice) + '<td class="text-center"><button type="button" class="btn btn-primary btn-xs btn-rounded" onclick="saveOrder(' + rowData.id + ')"><i class="fas fa-check fa-xs"></i> OK</button></td>' + "</tr>";
+                        orderTable.append(ele);
+                        //render status
+                        $('#status' + rowData.id).val(rowData.status);
+                    }
+                );
+            }
+        }).fail(err => handleError(err.responseJSON));;
+    })
+
 }
 
 function searchUser(isResetPage) {
@@ -296,39 +260,38 @@ function searchUser(isResetPage) {
 
     let userTable = $(".user-table tbody");
 
-    userTable.html(''); // clear table
 
     let query = "keywords=" + input.val() + `&page=${queryPage.user}`;
+    showLoading(() => {
+        $.ajax({
+            url: config.baseUrl + "/api/admin/user/search.php?" + query,
+            type: "GET",
+            dataType: "json",
+            headers: {
+                'Authorization': getToken()
+            },
+            success: function (data) {
+                hideLoading();
+                userTable.html(''); // clear table
+                let { total, page, onePage, totalPage, offset } = data;
+                page = parseInt(page, 10);
+                onePage = parseInt(onePage, 10);
+                totalPage = parseInt(totalPage, 10);
+                console.log(data);
+                paginateTable($('.user-table'), page, total, totalPage, data['data'].length, 'user');
+                // console.log(JSON.stringify(data['data']));
+                $.each(
+                    data['data'],
+                    function (index, row) {
+                        let rowData = $.parseJSON(JSON.stringify(row));
+                        let ele = "<tr><td>" + rowData.id + "</td><td>" + rowData.email + "</td><td>" + rowData.firstName + "</td><td>" + rowData.lastName + "</td><td>" + rowData.tel + "</td><td>" + rowData.address + "</td><td>" + rowData.createdAt + "</td></tr>";
+                        userTable.append(ele);
+                    }
+                );
+            }
+        }).fail(err => handleError(err.responseJSON));;
+    })
 
-    $.ajax({
-        url: "http://localhost/hands-free/api/admin/user/search.php?" + query,
-        type: "GET",
-        dataType: "json",
-        headers: {
-            'Authorization': getToken()
-        },
-        error: function (xhr, status, error) {
-            var err = eval("(" + xhr.responseText + ")");
-            alert(err);
-        },
-        success: function (data) {
-            let { total, page, onePage, totalPage, offset } = data;
-            page = parseInt(page, 10);
-            onePage = parseInt(onePage, 10);
-            totalPage = parseInt(totalPage, 10);
-            console.log(data);
-            paginateTable($('.user-table'), page, total, totalPage, data['data'].length, 'user');
-            // console.log(JSON.stringify(data['data']));
-            $.each(
-                data['data'],
-                function (index, row) {
-                    let rowData = $.parseJSON(JSON.stringify(row));
-                    let ele = "<tr><td>" + rowData.id + "</td><td>" + rowData.email + "</td><td>" + rowData.firstName + "</td><td>" + rowData.lastName + "</td><td>" + rowData.tel + "</td><td>" + rowData.address + "</td><td>" + rowData.createdAt + "</td></tr>";
-                    userTable.append(ele);
-                }
-            );
-        }
-    });
 }
 
 function detailProduct(productID) {
@@ -342,35 +305,35 @@ function detailProduct(productID) {
     $(".product-table").hide();
     $("#addBtn").hide();
     $("#editBtn").show();
-    $.ajax({
-        url: "http://localhost/hands-free/api/product/getOne.php?" + "id=" + productID,
-        type: "GET",
-        dataType: "json",
-        headers: {
-            'Authorization': getToken()
-        },
-        error: function (xhr, status, error) {
-            var err = eval("(" + xhr.responseText + ")");
-            alert(err);
-        },
-        success: function (data) {
-            console.log(JSON.stringify(data));
-            $("#productID").val(data['id']);
-            $("#modelID").val(data['modelId']);
-            $("#productName").val(data['name']);
-            $("#productPrice").val(data['price']);
-            $("#ceilPrice").val(data['ceilPrice']);
-            $("#bestSell").prop('checked', data['bestSell'] == '1');
-            $("#bestGift").prop('checked', data['bestGift'] == '1');
-            $("#bestPrice").prop('checked', data['bestPrice'] == '1');
-            $("#hotNew").prop('checked', data['hotNew'] == '1');
-            $("#hotDeal").prop('checked', data['hotDeal'] == '1');
-            $("#recentlyViewed").prop('checked', data['recentlyViewed'] == '1');
-            $("#productQuantity").val(data['quantity']);
-            $("#productStatus").val(data['status']);
-            $("#productWaranty").val(data['warranty']);
-        }
-    });
+    showLoading(() => {
+        $.ajax({
+            url: config.baseUrl + "/api/product/getOne.php?" + "id=" + productID,
+            type: "GET",
+            dataType: "json",
+            headers: {
+                'Authorization': getToken()
+            },
+            success: function (data) {
+                hideLoading();
+                // console.log(JSON.stringify(data));
+                $("#productID").val(data['id']);
+                $("#modelID").val(data['modelId']);
+                $("#productName").val(data['name']);
+                $("#productPrice").val(data['price']);
+                $("#ceilPrice").val(data['ceilPrice']);
+                $("#bestSell").prop('checked', data['bestSell'] == '1');
+                $("#bestGift").prop('checked', data['bestGift'] == '1');
+                $("#bestPrice").prop('checked', data['bestPrice'] == '1');
+                $("#hotNew").prop('checked', data['hotNew'] == '1');
+                $("#hotDeal").prop('checked', data['hotDeal'] == '1');
+                $("#recentlyViewed").prop('checked', data['recentlyViewed'] == '1');
+                $("#productQuantity").val(data['quantity']);
+                $("#productStatus").val(data['status']);
+                $("#productWaranty").val(data['warranty']);
+            }
+        }).fail(err => handleError(err.responseJSON));;
+    })
+
 }
 
 
@@ -404,23 +367,22 @@ function updateProductDetail() {
 
 
     console.log(query);
-    $.ajax({
-        url: "http://localhost/hands-free/api/admin/product/update.php",
-        type: "POST",
-        data: query,
-        dataType: "json",
-        headers: {
-            'Authorization': getToken()
-        },
-        error: function (xhr, status, error) {
-            var err = eval("(" + xhr.responseText + ")");
-            alert(err);
-        },
-        success: function (data) {
-            console.log(JSON.stringify(data));
-            alert(data['message']);
-        }
-    });
+    showLoading(() => {
+        $.ajax({
+            url: config.baseUrl + "/api/admin/product/update.php",
+            type: "POST",
+            data: query,
+            dataType: "json",
+            headers: {
+                'Authorization': getToken()
+            },
+            success: function (data) {
+                // console.log(JSON.stringify(data));
+                handleSuccess(data['message']);
+            }
+        }).fail(err => handleError(err.responseJSON));;
+    })
+
 }
 
 function saveOrder(orderID) {
@@ -428,45 +390,41 @@ function saveOrder(orderID) {
     if (st == "Approved") {
 
         let query = "orderId=" + orderID;
+        showLoading(() => {
+            $.ajax({
+                url: config.baseUrl + "/api/admin/order/approve.php",
+                type: "POST",
+                data: query,
+                dataType: "json",
+                headers: {
+                    'Authorization': getToken()
+                },
+                success: function (data) {
+                    // console.log(JSON.stringify(data));
+                    handleSuccess(data['message']);
+                }
+            }).fail(err => handleError(err.responseJSON));;;
+        })
 
-        $.ajax({
-            url: "http://localhost/hands-free/api/admin/order/approve.php",
-            type: "POST",
-            data: query,
-            dataType: "json",
-            headers: {
-                'Authorization': getToken()
-            },
-            error: function (xhr, status, error) {
-                var err = eval("(" + xhr.responseText + ")");
-                alert(err);
-            },
-            success: function (data) {
-                console.log(JSON.stringify(data));
-                alert(data['message']);
-            }
-        });
     }
     else if (st == "Completed") {
         let query = "orderId=" + orderID;
+        showLoading(() => {
+            $.ajax({
+                url: config.baseUrl + "/api/admin/order/complete.php",
+                type: "POST",
+                data: query,
+                dataType: "json",
+                headers: {
+                    'Authorization': getToken()
+                },
+                success: function (data) {
+                    // console.log(JSON.stringify(data));
+                    handleSuccess(data['message']);
+                }
+            }).fail(err => handleError(err.responseJSON));;
+        })
 
-        $.ajax({
-            url: "http://localhost/hands-free/api/admin/order/complete.php",
-            type: "POST",
-            data: query,
-            dataType: "json",
-            headers: {
-                'Authorization': getToken()
-            },
-            error: function (xhr, status, error) {
-                var err = eval("(" + xhr.responseText + ")");
-                alert(err);
-            },
-            success: function (data) {
-                console.log(JSON.stringify(data));
-                alert(data['message']);
-            }
-        });
     }
     else {
         alert("Không thể đổi thành trạng thái đang đặt hàng!");
@@ -572,24 +530,23 @@ function creatNewProduct() {
     query += "warranty=" + productWaranty;
 
     console.log(query);
-    $.ajax({
-        url: "http://localhost/hands-free/api/admin/product/create.php",
-        type: "POST",
-        data: query,
-        dataType: "json",
-        headers: {
-            'Authorization': getToken()
-        },
-        error: function (xhr, status, error) {
-            var err = eval("(" + xhr.responseText + ")");
-            alert(err);
-        },
-        success: function (data) {
-            console.log(JSON.stringify(data));
-            alert(data['message']);
-            $('#menu-product').click();
-        }
-    });
+    showLoading(() => {
+        $.ajax({
+            url: config.baseUrl + "/api/admin/product/create.php",
+            type: "POST",
+            data: query,
+            dataType: "json",
+            headers: {
+                'Authorization': getToken()
+            },
+            success: function (data) {
+                // console.log(JSON.stringify(data));
+                handleSuccess(data['message']);
+                $('#menu-product').click();
+            }
+        }).fail(err => handleError(err.responseJSON));;
+    })
+
 }
 
 function CreateModel() {
@@ -599,24 +556,22 @@ function CreateModel() {
     query += "name=" + createModelName;
 
     console.log(query);
-    $.ajax({
-        url: "http://localhost/hands-free/api/admin/model/create.php",
-        type: "POST",
-        data: query,
-        dataType: "json",
-        headers: {
-            'Authorization': getToken()
-        },
-        error: function (xhr, status, error) {
-            var err = eval("(" + xhr.responseText + ")");
-            alert(err);
-        },
-        success: function (data) {
-            console.log(JSON.stringify(data));
-            alert(data['message']);
-            $('#menu-model').click();
-        }
-    });
+    showLoading(() => {
+        $.ajax({
+            url: config.baseUrl + "/api/admin/model/create.php",
+            type: "POST",
+            data: query,
+            dataType: "json",
+            headers: {
+                'Authorization': getToken()
+            },
+            success: function (data) {
+                // console.log(JSON.stringify(data));
+                handleSuccess(data['message']);
+                $('#menu-model').click();
+            }
+        }).fail(err => handleError(err.responseJSON));;
+    })
 }
 
 function CreateBrand() {
@@ -624,24 +579,22 @@ function CreateBrand() {
     let query = "name=" + brandName;
 
     console.log(query);
-    $.ajax({
-        url: "http://localhost/hands-free/api/admin/brand/create.php",
-        type: "POST",
-        data: query,
-        dataType: "json",
-        headers: {
-            'Authorization': getToken()
-        },
-        error: function (xhr, status, error) {
-            var err = eval("(" + xhr.responseText + ")");
-            alert(err);
-        },
-        success: function (data) {
-            console.log(JSON.stringify(data));
-            alert(data['message']);
-            $('#menu-brand').click();
-        }
-    });
+    showLoading(() => {
+        $.ajax({
+            url: config.baseUrl + "/api/admin/brand/create.php",
+            type: "POST",
+            data: query,
+            dataType: "json",
+            headers: {
+                'Authorization': getToken()
+            },
+            success: function (data) {
+                // console.log(JSON.stringify(data));
+                handleSuccess(data['message']);
+                $('#menu-brand').click();
+            }
+        }).fail(err => handleError(err.responseJSON));;
+    })
 }
 
 //log out

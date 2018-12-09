@@ -35,6 +35,25 @@
 </head>
 
 <body >
+
+    <!-- Common utils and config -->
+    <script src="common.js"></script>
+
+    <!-- Redirect when logined -->
+    <script>
+        console.log('OK');
+        if (isLoginedSync() == true) {
+            window.location.pathname = "";
+        }
+        console.log('OK3');
+    </script>
+
+    <!-- Loading -->
+
+    <div id="loading">
+        <div id="loader" class="lds-ring"><div></div><div></div><div></div><div></div></div>
+    </div>
+
     <!-- ============================================================== -->
     <!-- login page  -->
     <!-- ============================================================== -->
@@ -65,9 +84,6 @@
     <!-- Optional JavaScript -->
     <script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
-
-    <!-- auth.js -->
-    <script src="auth.js"></script>
 
     <!-- My Script -->
     <script src="login.js"></script>

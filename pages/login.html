@@ -73,7 +73,7 @@
                 console.log(data);
                 const { issuedAt, token, tokenExpire, user } = data;
                 alert(data);
-            }).fail(err => handleError(err.responseJSON));
+            }).fail(err => handleError(err));
         }
     </script>
 </body>

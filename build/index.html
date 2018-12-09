@@ -23,6 +23,23 @@
 </head>
 
 <body>
+
+    <!-- Common utils and config -->
+    <script src="common.js"></script>
+
+    <!-- Redirect when no login -->
+    <script>
+        if (isLoginedSync() == false) {
+            window.location.href = "login.html";
+        }
+    </script>
+
+    <!-- Loading -->
+
+    <div id="loading">
+        <div id="loader" class="lds-ring"><div></div><div></div><div></div><div></div></div>
+    </div>
+
     <!-- ============================================================== -->
     <!-- main wrapper -->
     <!-- ============================================================== -->
@@ -588,9 +605,6 @@
 
     <!-- Numeral -->
     <script src="assets/vendor/numeral/numeral.min.js"></script>
-
-    <!-- auth.js -->
-    <script src="auth.js"></script>
 
     <!-- My Script -->
     <script src="index.js"></script>

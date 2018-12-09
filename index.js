@@ -64,7 +64,7 @@ function getBrandTable() {
                     }
                 );
             }
-        }).fail(err => handleError(err.responseJSON));
+        }).fail(err => handleError(err));
     })
 
 }
@@ -104,7 +104,7 @@ function getModelTable() {
                     }
                 );
             }
-        }).fail(err => handleError(err.responseJSON));;
+        }).fail(err => handleError(err));;
     })
 
 }
@@ -192,7 +192,7 @@ function searchProduct(isResetPage) {
                     }
                 );
             }
-        }).fail(err => handleError(err.responseJSON));;
+        }).fail(err => handleError(err));;
     })
 
 }
@@ -241,7 +241,7 @@ function searchOrder() {
                     }
                 );
             }
-        }).fail(err => handleError(err.responseJSON));;
+        }).fail(err => handleError(err));;
     })
 
 }
@@ -289,7 +289,7 @@ function searchUser(isResetPage) {
                     }
                 );
             }
-        }).fail(err => handleError(err.responseJSON));;
+        }).fail(err => handleError(err));;
     })
 
 }
@@ -331,7 +331,7 @@ function detailProduct(productID) {
                 $("#productStatus").val(data['status']);
                 $("#productWaranty").val(data['warranty']);
             }
-        }).fail(err => handleError(err.responseJSON));;
+        }).fail(err => handleError(err));;
     })
 
 }
@@ -380,7 +380,7 @@ function updateProductDetail() {
                 // console.log(JSON.stringify(data));
                 handleSuccess(data['message']);
             }
-        }).fail(err => handleError(err.responseJSON));;
+        }).fail(err => handleError(err));;
     })
 
 }
@@ -403,7 +403,7 @@ function saveOrder(orderID) {
                     // console.log(JSON.stringify(data));
                     handleSuccess(data['message']);
                 }
-            }).fail(err => handleError(err.responseJSON));;;
+            }).fail(err => handleError(err));;;
         })
 
     }
@@ -422,7 +422,7 @@ function saveOrder(orderID) {
                     // console.log(JSON.stringify(data));
                     handleSuccess(data['message']);
                 }
-            }).fail(err => handleError(err.responseJSON));;
+            }).fail(err => handleError(err));;
         })
 
     }
@@ -544,7 +544,7 @@ function creatNewProduct() {
                 handleSuccess(data['message']);
                 $('#menu-product').click();
             }
-        }).fail(err => handleError(err.responseJSON));;
+        }).fail(err => handleError(err));;
     })
 
 }
@@ -570,7 +570,7 @@ function CreateModel() {
                 handleSuccess(data['message']);
                 $('#menu-model').click();
             }
-        }).fail(err => handleError(err.responseJSON));;
+        }).fail(err => handleError(err));;
     })
 }
 
@@ -593,7 +593,7 @@ function CreateBrand() {
                 handleSuccess(data['message']);
                 $('#menu-brand').click();
             }
-        }).fail(err => handleError(err.responseJSON));;
+        }).fail(err => handleError(err));;
     })
 }
 

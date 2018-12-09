@@ -13,10 +13,10 @@ function AdminLogin() {
     showLoading(() => {
         $.post(url, loginData, (data) => {
             hideLoading();
-            console.log(data);
+            // console.log(data);
             const { issuedAt, token, tokenExpire, user } = data;
             storeAuthentication(user, token, tokenExpire, issuedAt);
             window.location.reload();
-        }).fail(err => handleError(err.responseJSON));
+        }).fail(err => handleError(err));
     })
 }

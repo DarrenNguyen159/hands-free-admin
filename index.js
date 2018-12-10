@@ -105,6 +105,11 @@ const queryPage = {
     product: 1
 }
 
+const funcQuery = {
+    user: searchUser,
+    product: searchProduct
+}
+
 function paginateTable($tb, page, total, totalPage, number, pageTable) {
     $tb.find('.number').text(number);
     $tb.find('.total').text(total);
@@ -118,14 +123,17 @@ function paginateTable($tb, page, total, totalPage, number, pageTable) {
     $tb.find('.pagination a.page-prev').click(() => {
         if (page > 1) {
             queryPage[pageTable] = page - 1;
-            searchUser();
+            funcQuery[pageTable]();
         }
     })
     for (let i = 1; i <= totalPage; i++) {
         $tb.find('.pagination').append(`
             <li class="page-item ${i == page ? 'active' : ''}"><a class="page-link page-${i}" href="#">${i}</a></li>
         `)
-        $tb.find(`.pagination a.page-${i}`).click(() => { queryPage[pageTable] = i; searchUser(); })
+        $tb.find(`.pagination a.page-${i}`).click(() => { 
+            queryPage[pageTable] = i; 
+            funcQuery[pageTable]();
+        })
     }
     $tb.find('.pagination').append(`
         <li class="page-item">
@@ -136,7 +144,7 @@ function paginateTable($tb, page, total, totalPage, number, pageTable) {
     $tb.find('.pagination a.page-next').click(() => {
         if (page < totalPage) {
             queryPage[pageTable] = page + 1;
-            searchUser();
+            funcQuery[pageTable]();
         }
     })
 }
